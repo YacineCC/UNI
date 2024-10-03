@@ -1,0 +1,26 @@
+VAR toto, tata # Variables globales.
+VAR coucou
+
+# Ce programme a pour but de montrer l'ASA et la table de symbole.
+# Le code de fonction sera écrit mais l'appel de fonction ne sera pas supporté et seule la mémoire global est gérée.
+# Les variables déclaré dans une fonctions est ses paramètres sont toutes stockées à l'adresse 0 par défaut.
+
+
+ALGO foo(n)
+VAR bar, toto <- 1
+DEBUT
+    bar <- n * n
+    RETOURNER bar + toto 
+FIN
+
+ALGO bonjour(bye, coucou)
+DEBUT
+
+    RETOURNER coucou + bye
+FIN
+
+PROGRAMME()
+
+DEBUT
+    ECRIRE(toto + tata + coucou)
+FIN

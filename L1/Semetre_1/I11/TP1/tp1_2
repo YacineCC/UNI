@@ -1,0 +1,6 @@
+a = int (input("Saisir la valeur de a"))
+b = int (input("Saisir la valeur de b"))
+somme = print("La somme : "a + b)
+difference = print("La différence : " a - b )
+produit = print("Le produit : " a * b)
+rapport = print("Le rapport : " a / b)

@@ -1,0 +1,3 @@
+Profondeur de creusage à l'état déplié 	5954 mm
+Puissance efficace 67.9 kW
+Volume moteur 4.4 L

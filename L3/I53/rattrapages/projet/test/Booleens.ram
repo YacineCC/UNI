@@ -1,0 +1,160 @@
+LOAD #32      ; RAM_OS
+STORE 2       ; RAM_OS
+LOAD #16      ; RAM_OS
+STORE 5       ; RAM_OS
+STORE 16        ; DECLA_VAR bool
+LOAD #0       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #1       ;  NB
+SUB @2        ; <
+JUML 13       ; <
+LOAD #0 ; <
+JUMP 14      ; <
+LOAD #1 ; <
+DEC 2         ; PILE--
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #4       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #5       ;  NB
+JUMG 23       ; NON
+JUMZ 25       ; NON
+LOAD #0 ; NON
+JUMP 26      ; NON
+LOAD #1 ; NON
+DEC 2         ; PILE--
+SUB @2        ; >
+JUMG 31       ; >
+LOAD #0 ; >
+JUMP 32      ; >
+LOAD #1 ; >
+DEC 2         ; PILE--
+JUMG 38       ; OU
+LOAD @2        ; OU
+JUMG 38       ; OU
+LOAD #0 ; OU
+JUMP 39      ; OU
+LOAD #1 ; OU
+DEC 2         ; PILE--
+STORE 16        ; <-
+LOAD 16      ;   ID
+WRITE ;
+LOAD #10      ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #0       ;  NB
+SUB @2        ; <=
+JUML 52       ; <=
+JUMZ 52       ; <=
+LOAD #0 ; <=
+JUMP 53        ; <=
+LOAD #1 ; <=
+DEC 2         ; PILE--
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #1       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #1       ;  NB
+SUB @2        ; >=
+JUMG 65       ; >=
+JUMZ 65       ; >=
+LOAD #0 ; >=
+JUMP 66        ; >=
+LOAD #1 ; >=
+DEC 2         ; PILE--
+JUMG 70       ; ET
+LOAD #0 ; ET
+JUMP 75      ; ET
+LOAD @2        ; ET
+JUMG 73       ; ET
+JUMP 69       ; ET
+LOAD #1 ; ET
+DEC 2         ; PILE--
+STORE 16        ; <-
+LOAD 16      ;   ID
+WRITE ;
+LOAD #1       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #1       ;  NB
+SUB @2        ; =
+JUMZ 86       ; =
+LOAD #0 ; =
+JUMP 87      ; =
+LOAD #1 ; =
+DEC 2         ; PILE--
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #1       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #1       ;  NB
+SUB @2        ; !=
+JUMZ 98       ; !=
+LOAD #1 ; !=
+JUMP 99      ; !=
+LOAD #0; !=
+DEC 2         ; PILE--
+JUMG 105      ; OU
+LOAD @2        ; OU
+JUMG 105      ; OU
+LOAD #0 ; OU
+JUMP 106     ; OU
+LOAD #1 ; OU
+DEC 2         ; PILE--
+STORE 16        ; <-
+LOAD 16      ;   ID
+WRITE ;
+LOAD #1       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #1       ;  NB
+SUB @2        ; =
+JUMZ 118      ; =
+LOAD #0 ; =
+JUMP 119     ; =
+LOAD #1 ; =
+DEC 2         ; PILE--
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #1       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #1       ;  NB
+SUB @2        ; !=
+JUMZ 130      ; !=
+LOAD #1 ; !=
+JUMP 131     ; !=
+LOAD #0; !=
+DEC 2         ; PILE--
+JUMG 135      ; ET
+LOAD #0 ; ET
+JUMP 140     ; ET
+LOAD @2        ; ET
+JUMG 138      ; ET
+JUMP 134      ; ET
+LOAD #1 ; ET
+DEC 2         ; PILE--
+STORE 16        ; <-
+LOAD 16      ;   ID
+WRITE ;
+LOAD #1       ;  NB
+JUMG 146      ; NON
+JUMZ 148      ; NON
+LOAD #0 ; NON
+JUMP 149     ; NON
+LOAD #1 ; NON
+DEC 2         ; PILE--
+JUMG 152      ; NON
+JUMZ 154      ; NON
+LOAD #0 ; NON
+JUMP 155     ; NON
+LOAD #1 ; NON
+DEC 2         ; PILE--
+STORE 16        ; <-
+LOAD 16      ;   ID
+WRITE ;
+STOP ;

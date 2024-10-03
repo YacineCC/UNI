@@ -1,0 +1,44 @@
+LOAD #32      ; RAM_OS
+STORE 2       ; RAM_OS
+LOAD #16      ; RAM_OS
+STORE 5       ; RAM_OS
+STORE 16        ; DECLA_VAR toto
+STORE 17        ; DECLA_VAR tata
+STORE 18        ; DECLA_VAR coucou
+STORE 0         ; DECLA_VAR bar
+LOAD #1       ;  NB
+STORE 0         ; DECLA_VAR toto
+LOAD 0       ;   ID
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD 0       ;   ID
+MUL @2        ; MULTIPLICATION
+DEC 2         ; PILE--
+STORE 0         ; <-
+LOAD 0       ;   ID
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD 0       ;   ID
+ADD @2        ; ADDITION
+DEC 2         ; PILE--
+LOAD 0; RETURN
+LOAD 0       ;   ID
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD 0       ;   ID
+ADD @2        ; ADDITION
+DEC 2         ; PILE--
+LOAD 0; RETURN
+LOAD 18      ;   ID
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD 17      ;   ID
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD 16      ;   ID
+ADD @2        ; ADDITION
+DEC 2         ; PILE--
+ADD @2        ; ADDITION
+DEC 2         ; PILE--
+WRITE ;
+STOP ;

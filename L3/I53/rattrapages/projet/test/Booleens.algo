@@ -1,0 +1,16 @@
+VAR bool
+PROGRAMME()
+# Test des NON ET OU >= <= = !=
+DEBUT
+	bool <- NON 5 > 4 OU 1 < 0
+    ECRIRE(bool)
+    bool <- 1 >= 1 ET 0 <= 10
+    ECRIRE(bool)
+    bool <- 1 != 1 OU 1 = 1
+    ECRIRE(bool)
+    bool <- 1 != 1 ET 1 = 1
+    ECRIRE(bool)
+    bool <- NON NON 1
+    ECRIRE(bool)
+
+FIN

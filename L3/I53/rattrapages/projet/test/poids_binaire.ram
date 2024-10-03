@@ -1,0 +1,54 @@
+LOAD #32      ; RAM_OS
+STORE 2       ; RAM_OS
+LOAD #16      ; RAM_OS
+STORE 5       ; RAM_OS
+STORE 16        ; DECLA_VAR n
+LOAD #0       ;  NB
+STORE 17        ; DECLA_VAR poids
+READ ;
+STORE 16        ; <-
+LOAD #0       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD 16      ;   ID
+SUB @2        ; >
+JUMG 17       ; >
+LOAD #0 ; >
+JUMP 18      ; >
+LOAD #1 ; >
+DEC 2         ; PILE--
+JUMZ 51        ; TQ
+LOAD #1       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #2       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD 16      ;   ID
+MOD @2        ; MODULO
+DEC 2         ; PILE--
+SUB @2        ; =
+JUMZ 33       ; =
+LOAD #0 ; =
+JUMP 34      ; =
+LOAD #1 ; =
+DEC 2         ; PILE--
+JUMZ 43        ; SI
+LOAD #1       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD 17      ;   ID
+ADD @2        ; ADDITION
+DEC 2         ; PILE--
+STORE 17        ; <-
+LOAD #2       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD 16      ;   ID
+DIV @2        ; DIVISION
+DEC 2         ; PILE--
+STORE 16        ; <-
+JUMP 9        ;  FTQ
+LOAD 17      ;   ID
+WRITE ;
+STOP ;

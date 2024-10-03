@@ -1,0 +1,34 @@
+LOAD #32      ; RAM_OS
+STORE 2       ; RAM_OS
+LOAD #16      ; RAM_OS
+STORE 5       ; RAM_OS
+LOAD #0       ;  NB
+STORE 16        ; DECLA_VAR a
+LOAD #1       ;  NB
+STORE 17        ; DECLA_VAR b
+LOAD #2       ;  NB
+STORE 18        ; DECLA_VAR c
+STORE 19        ; DECLA_VAR d
+READ ;
+STORE 19        ; <-
+LOAD 16      ;   ID
+WRITE ;
+LOAD 17      ;   ID
+WRITE ;
+LOAD 18      ;   ID
+WRITE ;
+LOAD 19      ;   ID
+WRITE ;
+LOAD 19      ;   ID
+STORE 18        ; <-
+STORE 17        ; <-
+STORE 16        ; <-
+LOAD 16      ;   ID
+WRITE ;
+LOAD 17      ;   ID
+WRITE ;
+LOAD 18      ;   ID
+WRITE ;
+LOAD 19      ;   ID
+WRITE ;
+STOP ;

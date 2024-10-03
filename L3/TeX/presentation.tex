@@ -1,0 +1,22 @@
+\documentclass[hyperref={pdfpagemode=FullScreen,colorlinks=false}]{beamer}
+\usepackage{concrete}
+\usepackage[latin1]{inputenc} % sous windows
+%\usepackage[utf8]{inputenc} % sous linux
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{\insertframenumber/\inserttotalframenumber}
+\begin{document}
+\begin{frame}
+\frametitle{Titre de la diapo}
+\textbf{Blah!}
+\textbf<2>{Bleh!}
+\textbf<3>{Blih!}
+\structure{Blah!}
+\structure<2>{Bleh!}
+\structure<3>{Blih!}
+\alert{Blah!}
+\alert<2>{Bleh!}
+\alert<3>{Blih!}
+\end{frame}
+\end{document}

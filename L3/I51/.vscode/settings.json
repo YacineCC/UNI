@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "kruskal.h": "c",
+        "math.h": "c",
+        "graphe_base.h": "c"
+    }
+}

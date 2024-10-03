@@ -1,0 +1,15 @@
+VAR n, poids <- 0
+PROGRAMME()
+# Fonction qui donne le poids binaire d'un entier.
+DEBUT
+
+  n <- LIRE()
+  TQ n > 0 FAIRE 
+    SI n % 2 = 1 ALORS
+      poids <- poids + 1
+    FSI
+    n <- n / 2   
+  FTQ
+
+  ECRIRE(poids)
+FIN

@@ -1,0 +1,35 @@
+LOAD #10; [0,1] Mettre les valeurs d'entrée plus loin dans la mémoir pour avoir la place.
+STORE 1;
+READ;   [2,6] Lire les valeurs d'entrée jusqu'a rencontrer une valeur négative et les rentrer dans la mémoire.
+JUML 7;
+STORE @1;
+INC 1;
+JUMP 2;
+LOAD #-1;   [7,8] Charcher une valeur négative en bout de mémoire pour avoir une condition d'arrêt quand on parcourra la mémoire.
+STORE @1;
+LOAD #10;   [9,10] Se remettre au début de la mémoire.
+STORE 1;
+STORE 3;
+STORE 4;
+LOAD @1;    [12,13] Placer le minimum temporaire dans la case mémoire 2.
+STORE 2;
+INC 1;
+LOAD @1;    [15, ] Début du parcours de la mémoire pour chercher le min.
+JUML 33;
+SUB 2;
+INC 1;
+JUML 22;
+JUMP 16;
+LOAD 1;
+STORE 3;
+JUMP 16;
+LOAD 4;
+STORE 5;
+LOAD 3;
+STORE 3;
+LOAD 5;
+STORE 3;
+INC 4;
+JUMP 16;
+STOP;
+

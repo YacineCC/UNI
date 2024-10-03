@@ -1,0 +1,61 @@
+LOAD #32      ;
+STORE 2       ;
+LOAD #16      ;
+STORE 5       ;
+STORE 16        ; DECLA_VAR
+STORE 17        ; DECLA_VAR
+LOAD #1       ;  NB
+STORE 16        ; AFFECTATION
+LOAD #0       ;  NB
+STORE 17        ; AFFECTATION
+LOAD 17      ;   ID
+INC 2         ;
+STORE @2         ;
+LOAD 16      ;   ID
+JUMG 16       ;
+JUMZ 18       ;
+LOAD #0 ;
+JUMP 19      ;
+LOAD #1 ;
+DEC 2         ; 
+JUMG 25       ;
+LOAD @2        ; 
+JUMG 25       ;
+LOAD #0 ;
+JUMP 26      ;
+LOAD #1 ;
+DEC 2         ; 
+JUMG 29       ;
+JUMZ 31       ;
+LOAD #0 ;
+JUMP 32      ;
+LOAD #1 ;
+DEC 2         ; 
+WRITE ;
+LOAD 17      ;   ID
+INC 2         ;
+STORE @2         ;
+LOAD 16      ;   ID
+JUMG 41       ;
+LOAD #0 ;
+JUMP 46      ;
+LOAD @2        ; 
+DEC 2         ; 
+JUMG 45       ;
+JUMP 40       ;
+LOAD #1 ;
+DEC 2         ;
+JUMG 49       ;
+JUMZ 51       ;
+LOAD #0 ;
+JUMP 52      ;
+LOAD #1 ;
+DEC 2         ; 
+JUMG 55       ;
+JUMZ 57       ;
+LOAD #0 ;
+JUMP 58      ;
+LOAD #1 ;
+DEC 2         ; 
+WRITE ;
+STOP ;

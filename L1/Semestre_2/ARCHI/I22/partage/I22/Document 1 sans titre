@@ -1,0 +1,12 @@
+
+
+Conversion minuscule  => majuscule 
+
+code Majuscule = code Minuscule - 0x20
+
+Conversion majuscule => minuscule
+code minuscule = code Majuscule + 0x20
+
+Affichage de la valeur entiere code sur 1 octet val =0
+
+codeascii = val + 0x30

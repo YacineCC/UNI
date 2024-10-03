@@ -1,0 +1,10 @@
+PROGRAMME()
+# Exemple d'erreur sémantique, ici tutu est déclaré deux fois, a et b ne sont pas déclaré mais quand même utilisés.
+# Il y aurait les 3 warning si le programme ne s'arrêtait pas.
+VAR toto, titi, tutu, tutu
+DEBUT
+	toto <- 12
+	titi <- 5
+	tutu <- 2*(a-b)
+	toto <- (tutu < 0)
+FIN

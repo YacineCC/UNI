@@ -1,0 +1,215 @@
+\documentclass[a4paper,10pt, oneside]{article}
+\usepackage[procnames]{listingsutf8}
+\usepackage[svgnames]{xcolor}
+\usepackage{fancyheadings}
+\usepackage{pifont}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\pagestyle{fancy}
+
+\lstset{
+  language=C,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{LightSeaGreen}\bfseries,
+  commentstyle=\color{SeaGreen}\slshape,
+  stringstyle=\color{IndianRed}\ttfamily,
+  showstringspaces=false,	
+  numbers=left, numberstyle=\tiny, stepnumber=0, numbersep=5pt, firstnumber=1,
+  showspaces=false, showtabs=true, tab=\rightarrowfill,
+  backgroundcolor=\color{Lavender},
+  procnamestyle=\color{DodgerBlue}
+}
+
+
+%%%
+\newcounter{exo}
+\setcounter{exo}{0}
+\newenvironment{exercice}%
+{\stepcounter{exo}%
+\par\noindent%
+\fcolorbox{white}{lightgray}{\textsc{Exercice \theexo.}}
+}%
+{\vspace{4mm}}
+%%%
+\fancyhf{}
+%\rhead{Université de Toulon -L1 Maths/SI/PC-}
+\cfoot{Compilation}
+\lfoot{Nicolas Méloni}
+\rfoot{\thepage}
+
+\begin{document}
+\title{I53- Compilation et théorie des langages \\ Introduction à \texttt{Flex} et \texttt{Bison}}
+
+\date{Licence 3 - 2023/2024}
+\maketitle
+\section{Flex}
+
+Pour compiler un programme flex on utilise la commande \texttt{flex
+prog.lex } pour produire un fichier \texttt{C} \texttt{lex.yy.c}
+lui-même compilé avec l'option \texttt{-lfl}: \texttt{gcc lex.yy.c
+-lfl}. Utiliser un \textit{makefile} pour compiler le programme et
+l'exécuter par la commande:
+
+\texttt{./mot\_le\_plus\_long < lex.yy.c}.
+
+\begin{enumerate}
+
+\item Modifier le programme pour que celui-ci retourne la ligne et la
+  colonne où se trouve le mot le plus long.
+
+\item Modifier le programme pour que celui-ci retourne la somme des
+  entiers présents dans le fichiers.
+
+\item Utiliser la variable interne gérant le flux d'entrée
+de \texttt{flex}
+
+  \begin{lstlisting}
+FILE *yyin
+  \end{lstlisting}
+
+pour pouvoir passer le fichier à analyser en paramètre de la commande.
+
+\end{enumerate}
+
+\section{Bison}
+
+Le programme \texttt{bison} est un générateur automatique d'analyseur
+syntaxique. Pour construire un analyseur syntaxique avec la commande
+bison on édite un fichier de suffixe .y, disons fichier mini.y
+incluant la définition d'un analyseur lexical, obligatoirement
+identifié par yylex(), la description des lexèmes ( tokens ) et des
+règles. Les actions sémantiques écrites en langage C entre accolades
+calculent l'attribut du père, représenté par \$\$, en fonction des
+attributs des fils de gauche à droite représentés par \$1, \$2, ...
+
+Un programme \texttt{bison} se décompose en 4 parties:
+prologue, définitions, règles et épilogue. Les zones du code
+correspondantes sont séparées dans le code source par les balises
+\texttt{\%\{, \%\}, \%\%, \%\%}.
+
+\begin{lstlisting}
+%{
+Prologue : declarations pour le compilateur C
+%}
+Definitions : definition des lexemes 
+%%
+Grammaire : production et regles syntaxiques
+%%
+Epilogue : corps de la fonction main()
+\end{lstlisting}
+
+
+\begin{enumerate}
+
+Le main du programme est réduit à sa plus simple expression : un appel
+de l'analyseur syntaxique yyparse() qui utilise implicitement la
+variable yylval et l'analyseur lexical yylex(), une fonction qui
+renvoie la valeur du lexème (token) courant dont l'attribut est
+transmis par la variable yylval. Les erreurs de syntaxes provoque
+l'appel de la fonction yyerror(). Ci-dessous, un exemple d'analyseur
+lexical rudimentaire.
+
+\begin{lstlisting}
+ int yylex( ) {
+    int car ;
+    car = getchar() ;
+    if ( car == EOF ) return 0 ;
+        if ( isdigit(car) ) {
+            yylval = car - '0';
+            return NB;
+          }
+    switch ( car ) {
+      case '+' : return PLUS;
+      case '\n': return FIN;
+    }
+    
+  }
+\end{lstlisting}
+
+\item  Exécuter les commandes:
+
+\begin{verbatim}
+./calculatrice
+\end{verbatim}
+
+  et rentrer une expression arithmétique contenant uniquement des +.
+  
+\item Améliorer l’analyseur lexical pour filtrer les espaces et tabulations.
+\item Modifier la grammaire pour gérer les autres opérations :
+  multiplication, division, soustraction.
+\item Intégrer une fonction \texttt{int myexp( int x, int n)} pour
+  gérer les exponentiations, l’opérateur sera représenté par deux
+  étoiles.
+\item Gérez les parenthèses.
+\item Modifier \texttt{yylex()} pour manipuler des nombres de
+  plusieurs chiffres.
+\end{enumerate}
+
+\section{Utilisation conjointe de \texttt{Flex} et \texttt{Bison}}
+
+Il est possible d'écrire de puissant analyseurs syntaxiques avec
+\texttt{Bison} tout en sous-traitant la construction de l'analyseur
+lexical à \texttt{Flex}. Pour cela on commence par écrire l'analyseur
+syntaxique puis l'analyseur lexical chargé de reconnaitre les unités
+lexicales (tokens) définies par \texttt{Bison}.
+
+Les fichiers \texttt{parser.y} et \texttt{lexer.lex} fournissent un
+exemple élémentaire d'utilisation conjointe de \texttt{Flex} et
+\texttt{Bison}. Le programme \texttt{Flex} récupère la définition des
+unités lexicales grâce au fichier \texttt{.h} qui sera produit par
+\texttt{Bison} lors de la compilation du fichier \texttt{parser.y}
+avec l'option \texttt{-d}. La compilation de la calculatrice se fait
+alors avec la séquence de commandes suivantes :
+
+\begin{lstlisting}[language=C]
+$ bison -o parser.c -d parser.y
+$ flex -o lexer.c lexer.lex
+$ gcc -Wall -o eval parser.c lexer.c -lfl
+\end{lstlisting}
+% $
+
+
+
+\begin{enumerate}
+\item Ajouter la gestion des nombres à plusieurs chiffres.
+\item Ajouter la gestion des opérateurs -,*,/,\%.
+\item Modifier la grammaire pour pouvoir saisir plusieurs calculs les
+  uns après les autres.
+\end{enumerate}
+
+On souhaite maintenant ajouter la gestion des identificateurs d'au
+plus 31 caractères. Pour cela on ajoute un \texttt{token} \texttt{ID}
+au parser dont le type sera \texttt{<id>}:
+
+\begin{lstlisting}
+%union{
+  int nb;
+  char id[32];
+ }
+...  
+%token <id> ID
+\end{lstlisting}
+
+\begin{enumerate}
+\item Modifier l'analyseur lexical pour que celui-ci gère le token
+  \texttt{ID};
+\item Implanter (dans une fichier \texttt{.c} séparé) une table de
+  symboles élémentaire permettant de rechercher ou d'ajouter des
+  identificateurs. On pourra se limiter à fixer par avance la taille
+  maximale de la table.
+
+\begin{lstlisting}
+struct identificateur {
+  char id[32];
+  int val;
+ };
+
+typedef struct identificateur table_symbole[16]; 
+\end{lstlisting}
+
+\item Ajouter la gestion des identificateurs avec notamment la gestion
+  de l'affectation.
+\end{enumerate}
+
+\end{document}

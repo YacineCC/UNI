@@ -1,0 +1,124 @@
+Haouas Yacine Nguyen Jean-Baptiste
+
+Les fichiers d'exemples sont dans le répertorie test.
+Pour lancer un programme : valgrind ./bin.arc ./test/nom_source.algo ./test/nom_sortie.ram
+
+Ce compilateur Langage ALGO -> Machine Ram est composé de plusieurs fichiers.
+
+- On a d'abord la partie analyse lexicale faite avec flex, pour reconnaître ou ignorer les différents tokens.
+
+- Puis une grammaire faite pour reconnaître un programme avec la structure suivante:
+    
+    - D'abord les déclarations de variables globales.
+    - Puis les déclarations de fonctions.
+    - Et enfin un main()
+
+- Les les actions associées aux productions de la grammaire sont des noeuds d'un asa construits avec les fichier asa.[ch].
+
+- Une fois l'ASA construit on fait un premier parcours en profondeur pour vérifier la sémantique avec les fonctions
+des fichier semantic.[ch] à l'aide d'une table de symbole des fichier ts.[ch], on attribu la longueur de code de chaque noeud,
+si on rencontre un identificateur on lui donne son adresse globale et on regarde si il a bien été déclaré en amont / qu'il existe
+bien dans la table de symbole. On regarde d'abord dans le contexte courant puis en global si on ne le trouve pas. Pour les
+déclarations de variables on vérifie que la variable n'a pas été déclaré deux fois dans un même contexte.
+
+- Enfin on parcourt une deuxième fois en profondeur l'ASA pour cette fois ci produire du code dans le fichier de sortie.
+Pour les noeuds qui nécessitent des saut à certaines adresse du code on se sert des longueur de code des noeuds impliqués
+et d'un pointeur d'instruction qui vaut le compteur ordinal.
+
+
+Mémoire:    Ici on ne gère que la mémoire globale, les variables locales sont inutilisables avec une adresse par défaut de 0. 
+
+    - Mémoire statique pour les variables globales.
+    - Pile pour les opérations.
+    -------------
+    |  RAM_OS   |
+    |           |
+    |-----------|
+    |  Mémoire  |
+    |  statique |
+    |           |
+    |-----------|   
+    |  Début    |    Pile  
+    |  de Pile  |   ↓
+    |           |   ↓
+    |           |   ↓
+    |           |
+    -------------
+    Le début de la mémoire statique et le début de pile sont des constantes de RAM_OS, à chaque déclaration de variable
+    le pointeur d'emplacement libre pour la mémoire statique est incrémenté. Le sommet de pile évolue au cours des opérations.
+
+PAS de prise en charge des tableaux statiques/ dynamique, des pointeurs,des fonctions.
+
+Langage reconnu par le compilateur:
+    - Expressions arithmétiques.
+    - Affectations.
+    - Expressions booléennes.
+    - La structure SI SINON.
+    - La structure TQ.
+    - Les opérateurs > >= < <= = !=.
+    - Les fonctions (Seulement la partie lexicale, syntaxique et semantique, pas utilisable dans la pratique).
+
+Modification de structure :
+    - Seulement dans la fonction ajouter_identificateur, ajout d'un paramètre pour pouvoir donner une adresse statique global à une variable. Ou l'adresse 0 si locale.
+
+
+La grammaire:
+    - Le début, la racine, ROOT, est composée des déclarations de variables globales et des fonctions.
+      on peut ne pas avoir de déclarations de variables ou de fonctions, le noeud ROOT sera créer avec NULL dans ce cas.
+    
+    - DECLAS_FCT permet de déclarer 0, 1 ou plusieurs fonctions séparés par 1 ou plusieurs '\n'.
+
+    - FCT, le token ALGO l'id de fonction, sa liste de paramètres, le token DEBUT et la liste d'instructions, et enfin le token FIN.
+
+    - PARAM_FCT une simple liste d'identificateurs séparée par des virgules. On peut avoir 0, 1 ou plusieurs paramètres.
+
+    - Le main PROGRAMME_ALGO est composé du token PROGRAMME, des parenthèses (il ne prend pas de paramètres), de sa 
+      déclaration de variables locales. Du token DEBUT puis d'une liste d'instruction, au moins une instruction. Et pour finir le token FIN.
+
+    - Les déclarations de variables DECLAS_VARS, permet d'avoir plusieurs VAR, par exemple:
+        VAR toto, titi
+        VAR tata
+        VAR tutu
+
+    - La déclaration de variable DECLA_VARS creer un noeud avec l'id de la variable sa valeur associée si elle est initialisée à la déclaration
+      dans le cas ID AFFECT EXP, et la variable suivante, qui est NULL si il y en a pas. Cette déclaration ne prend en compte que les entiers,
+      PAS de prise en charge des tableaux ou pointeurs.
+    
+    - INSTS qui est une liste d'instruction séparée par des '\n' au moins une instruction.
+
+
+    - INST qui peut être une expression, une instruction SI, TQ, RETOUNER ou ECRIRE.
+
+    - INST_SI token SI la condition, '\n' sa liste d'instructions et FIN pour le SI simple.
+      token SI la condition, '\n' sa liste d'instructions_SI SINON la liste d'instructions_SINON et FIN pour le SI SINON.
+
+    - INST_TQ la condition d'arrêt, et la liste d'instructions.
+
+    - INST_RETOURNER l'expression à retourner.
+
+    - INST_ECRIRE l'expression à écrire.
+
+    - INST_LIRE rien, faire un READ dans le codegen.
+
+    - EXP les expressions arithmétiques, les comparaisons, les expressions booléennes, les parenthèses.
+      ça peut aussi juste être un identificateur, l'instruction lire ou une affectation.
+
+    - SEP on a choisi le saut de ligne pour séparer les lignes de codes, au moins un saut de ligne.
+
+
+
+Ce qu'il manque:
+    - Une mémoire locale aux fonctions:
+        - Lors de la sémantique si le contexte est différent de GLOBAL stocker la valeur dans la pile.
+
+    - La gestion des tableaux et pointeurs:
+        - Pointeurs gérés comme des ints car contiennent des valeures entières. Il faudrait rajouter l'opérateur
+          @ pour récuperer l'adresse d'une variable, et l'opérateur * de déréférencement pour accéder à la valeur
+          stockée à l'adresse contenue  dans le ptr.
+
+
+    - L'appel de fonctions:
+        - Gérer la gestion des paramètres et ajouter un JUMP à l'adresse du début de fonction.
+
+    - Le tas et l'allocation dynamique:
+        Gestion le pointeur du tas.

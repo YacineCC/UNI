@@ -1,0 +1,5 @@
+PROGRAMME()
+VAR toto 
+DEBUT
+	1+1
+FIN

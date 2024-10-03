@@ -1,0 +1,28 @@
+INP A
+CLA zero
+ADD un
+OUT zero
+TAC 07
+HRS 
+CLA A
+SUB un
+JMP 01
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0 zero
+1 un

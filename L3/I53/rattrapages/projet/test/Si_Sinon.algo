@@ -1,0 +1,22 @@
+VAR a, b
+PROGRAMME() # Programme qui teste la structure Si Sinon.
+
+DEBUT
+
+    # On lit a et b, si a > b on écrit a, sinon si b > 10 on écrit b
+    # Si ni a > b ou ni b > 10 on écrit rien.
+    a <- LIRE() 
+    b <- LIRE() 
+
+    SI a > b ALORS
+        SI b < a ALORS
+
+            ECRIRE(a)
+        FSI
+    SINON
+        SI b > 10 ALORS
+            ECRIRE(b)
+        FSI
+    FSI
+
+FIN

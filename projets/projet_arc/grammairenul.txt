@@ -1,0 +1,69 @@
+ALGOS: ALGOS ID '('DECLAS_PARA')' SEP LI
+| %empty
+;
+
+DECLAS_PARA: DECLA_PARA
+| %empty
+;
+
+DECLA_PARA : DECLA_PARA ',' ID
+| ID
+;
+
+
+LI: INST SEP
+|LI INST SEP
+;
+
+INST: EXP 
+| INST_SI
+| INST_TQ
+| INST_RETOURNER
+;
+
+INST_SI: SI EXP ALORS LI FSI {$$ = creer_noeudSI($2, $4);};
+
+INST_TQ: TQ EXP FAIRE LI FTQ {$$ = creer_noeudTQ($2, $4);};
+
+INST_RETOURNER: RETOURNER EXP {$$ = creer_noeudRETOURNER($2);};
+
+DECLA_VAR: VAR LIST_ID SEP DECLA_VAR
+| %empty
+;
+LIST_ID:
+ID	{$$ = creer_noeudDECLAVAR($1, NULL, NULL);}
+|ID ',' LIST_ID {$$ = creer_noeudDECLAVAR($1, NULL, $3);}
+|AFFECTATION
+|AFFECTATION ',' LIST_ID
+;
+
+AFFECTATION:
+ID AFFECT EXP {$$ = creer_noeudAFFECTATION(creer_feuilleID($1), $3);}
+;
+
+
+EXP : NB                 {$$ = creer_feuilleNB(yylval.nb);}
+| ID '['EXP']'           
+| EXP '+' EXP            {$$= creer_noeudOP ('+', $1, $3);}
+| EXP '-' EXP            {$$= creer_noeudOP ('-', $1, $3);}
+| EXP '*' EXP            {$$= creer_noeudOP ('*', $1, $3);}
+| EXP '/' EXP            {$$= creer_noeudOP ('/', $1, $3);}
+| EXP '%' EXP            {$$= creer_noeudOP ('%', $1, $3);}
+| '('EXP')'              {$$= $2;}
+| ID                     {$$= creer_feuilleID($1);}
+| AFFECTATION
+
+;
+
+PROGRAMME_ALGO :
+PROGRAMME '(' ')' SEP
+DECLA_VAR 
+DEBUT SEP
+LI
+FIN SEP
+{ $$ = $5; ARBRE_ABSTRAIT = $5; }
+;
+
+
+SEP: '\n' | SEP '\n';
+

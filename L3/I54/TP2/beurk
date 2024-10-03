@@ -1,0 +1,19 @@
+
+CREATE OR REPLACE FUNCTION VerifCondition()
+RETURN TRIGGER AS $$ 
+	BEGIN
+		IF sum(NbplacesReservees) from reservation != (NbPlaces-NbPlacesLibres) from Spectacle THEN
+			ROLLBACK;
+		ELSE COMMIT;
+		END IF;
+		RETURN NEW;
+	END;
+	$$ LANGUAGE PLPGSQL;	
+
+
+CREATE OR REPLACE TRIGGER VerifConditionTrigger
+BEFORE INSERT OR UPDATE
+ON Spectacle
+FOR EACH ROW
+EXECUTE FUNCTION VerifCondition();
+

@@ -1,0 +1,16 @@
+VAR a <- 0, b <- 1, c <- 2, d
+# Exemple d'affectation successives, au début chaque variable a sa valeur respective.
+# Au final elles auront toutes la valeur de d.
+PROGRAMME()
+DEBUT
+    d <- LIRE()
+    ECRIRE(a)
+    ECRIRE(b)
+    ECRIRE(c)
+    ECRIRE(d) 
+    a <- b <- c <- d
+    ECRIRE(a)
+    ECRIRE(b)
+    ECRIRE(c)
+    ECRIRE(d)   
+FIN

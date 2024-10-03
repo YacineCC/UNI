@@ -1,0 +1,34 @@
+\documentclass[10pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{textcomp}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage[dvipsnames,svgnames]{xcolor}
+\usepackage{microtype}
+\usepackage{hyperref} \hypersetup{colorlinks=true,linkcolor=Brown,urlcolor=Navy,
+breaklinks=true,pdfstartview=XYZ}
+\usepackage{lipsum}
+\title{Bonjour}
+\author{Joe}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\lipsum[1]
+\end{abstract}
+\tableofcontents
+
+\section{Intro}
+\url{https://nguyen.univ-tln.fr}
+\lipsum[2]
+\subsection{Premier Essai}\label{subsec:pe}
+\lipsum[3]
+\subsection{Deuxième Essai}
+\lipsum[4] on a vu à la section \ref{subsec:pe} \pageref{subsec:pe}
+
+
+\end{document}

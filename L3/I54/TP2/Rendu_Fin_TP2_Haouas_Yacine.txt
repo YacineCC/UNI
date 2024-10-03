@@ -1,0 +1,56 @@
+Vérifier l'intégrité, deux commandes :
+select sum(NbplacesReservees) from reservation ;
+select (NbPlaces-NbPlacesLibres) as test from Spectacle;
+
+Réservation, deux commandes :
+UPDATE spectacle SET nbplaceslibres = nbplaceslibres-"nbplacesreservees" ;
+UPDATE Client SET solde = solde - tarif WHERE Reservation.nomC = Client.nomC;
+INSERT INTO Reservation VALUES('nomspectacle', 'nomclient', 'placesreservees');
+
+1)
+Réservation de Quentin:
+UPDATE spectacle SET nbplaceslibres = nbplaceslibres - 2 WHERE noms = 'Happy Potter';
+INSERT INTO Reservation VALUES('Quentin', 'Happy Potter', 2);
+UPDATE Client SET solde = solde - 20 WHERE NomC = 'Quentin';
+
+Réservation de Naven:
+UPDATE spectacle SET nbplaceslibres = nbplaceslibres - 5 WHERE noms = 'Happy Potter';
+INSERT INTO Reservation VALUES('Neven', 'Happy Potter', 5);
+UPDATE Client SET solde = solde - 20 WHERE nomC = 'Neven';
+
+select sum(NbplacesReservees) from reservation ; Donne 7.
+
+select (NbPlaces-NbPlacesLibres) as test from Spectacle; Donne 7 aussi.
+
+
+2)
+ noms     | nbplaces | nbplaceslibres | tarif 
+--------------+----------+----------------+-------
+ Happy Potter |      250 |            243 | 20.00
+(1 row)
+
+
+nomc   | solde 
+---------+-------
+ Quentin |    30
+ Neven   |    30
+(2 rows)
+
+
+ nomc   |     noms     | nbplacesreservees 
+---------+--------------+-------------------
+ Quentin | Happy Potter |                 2
+ Neven   | Happy Potter |                 5
+(2 rows)
+
+4.
+Si on ne commit pas l'une des réservation la deuxième sera bloqué. Lorsqu'on commit le
+select sum(NbplacesReservees) from reservation ; et le
+select (NbPlaces-NbPlacesLibres) as test from Spectacle; sont mis à jours.
+
+5.
+En mode read committed la lecture sale devient impossible
+
+En mode repeatable read la lecture sale, la lecture non repétable et la lecture fantome deviennent impossible.
+
+Exemple: Quand on fait la réservation de Quentin qu'on commit, la deuxième session ne change pas ce qui n'était pas le cas avant. Lorsque l'on essaye de faire la réservation de Naven on obtient l'erreur : ERROR:  could not serialize access due to concurrent update.

@@ -1,0 +1,215 @@
+PARSER
+
+| ID'['NB']'     {$$ = creer_noeud_DECLA_VARS($1, creer_noeud_TAB($1,$3, NULL), NULL);}
+| ID'['NB']' AFFECT '['LISTE_NB']' {$$ = creer_noeud_DECLA_VARS($1, creer_noeud_TAB($1,$3, $7), NULL);}
+;
+
+/*
+DECLA_VARS: DECLA_VAR {$$ = creer_noeud_DECLA_VAR($1, NULL);}
+|DECLA_VARS ',' DECLA_VAR {$$ = creer_noeud_DECLA_VAR($2, $1);}
+;
+
+DECLA_VAR: INIT_INT {$$ = creer_noeud_DECLA_VAR($1, NULL);}
+| INIT_TAB
+
+INIT_INT: ID 
+|ID AFFECT EXP
+;
+
+INIT_TAB: ID '['NB']'
+|ID '['NB']' AFFECT '['LISTE_NB']'
+;
+*/
+
+
+/*
+VARIABLE: ID {$$ = creer_noeud_VAR(creer_feuille_ID($1), NULL);}
+|ID AFFECT EXP {$$ = creer_noeud_VAR(creer_feuille_ID($1), $3);}
+*/
+
+
+//AFFECTATION: ID AFFECT EXP {$$ = creer_noeud_AFFECTATION($1,$3);}
+//;
+LISTE_NB
+LISTE_NB : NB {$$ = creer_noeud_LISTE_NB($1, NULL);}
+| NB ',' LISTE_NB {$$ = creer_noeud_LISTE_NB($1, $3);}
+| %empty {$$ = NULL;}
+;
+
+
+ASA.h
+les types...
+typedef struct 
+{
+  char id[32];
+  int taille;
+  struct asa* liste_nb;
+} noeud_TAB;
+
+typedef struct 
+{
+  int nb;
+  struct asa* nb_svt;
+} noeud_LISTE_NB;
+
+    l'union...
+    noeud_TAB tab;
+    noeud_LISTE_NB liste_nb;
+asa* creer_noeud_TAB(char* p1, int p2,asa* p3);
+asa* creer_noeud_LISTE_NB(int p1, asa* p2);
+void print_TAB(asa* p);
+void print_LISTE_NB(asa* p);
+
+ASA.c
+
+
+void print_TAB(asa* p)
+{
+  
+  sprintf(buffer, "%d", p->tab.taille);
+  print_field("TAILLE", buffer, TABULATION,TXT_GREEN);
+  sprintf(buffer, "%p", p->tab.liste_nb);
+  print_field("LISTE_NB", buffer, TABULATION,TXT_GREEN);
+  indent++; print_asa(p->tab.liste_nb); indent--;
+}
+
+void print_LISTE_NB(asa* p)
+{
+  sprintf(buffer, "%d", p->liste_nb.nb);
+  print_field("NB", buffer, TABULATION,TXT_GREEN);
+  sprintf(buffer, "%p", p->liste_nb.nb_svt);
+  print_field("NB_SVT", buffer, TABULATION,TXT_GREEN);
+  indent++; print_asa(p->liste_nb.nb_svt); indent--;
+}
+
+case type_TAB:
+    print_TAB(p);
+    break;
+  case type_LISTE_NB:
+    print_LISTE_NB(p);
+    break;
+
+
+  case type_TAB:
+    free_asa(p->tab.liste_nb);
+    break;
+  case type_LISTE_NB:
+    free_asa(p->liste_nb.nb_svt);
+    break;
+
+asa* creer_noeud_TAB(char* p1, int p2, asa* p3)
+{
+  asa * p;
+
+  if ((p = malloc(sizeof(asa))) == NULL)
+    error_asa("echec allocation mémoire");
+  
+  p->type = type_TAB;
+  strcpy(p->tab.id, p1);
+  p->tab.taille = p2;
+  p->tab.liste_nb = p3;
+  return p;
+}
+
+asa* creer_noeud_LISTE_NB(int p1, asa* p2)
+{
+  asa * p;
+
+  if ((p = malloc(sizeof(asa))) == NULL)
+    error_asa("echec allocation mémoire");
+  
+  p->type = type_LISTE_NB;
+  p->liste_nb.nb = p1;
+  p->liste_nb.nb_svt = p2;
+  return p;
+}
+
+
+
+SEMANTIC
+void semantic_TAB(asa* p)
+{
+  if(ts_rechercher_identificateur(TABLE_SYMBOLES, p->tab.id, CTX) == NULL)
+  {
+    p->codelen = 1;
+    p->memadr = pointeur_mem_statique;
+    pointeur_mem_statique += p->tab.taille;
+    ts_ajouter_identificateur(TABLE_SYMBOLES, CTX, p->tab.id, 't', p->tab.taille, p->memadr);
+
+  }
+  else
+  {
+    ts_print(TABLE_SYMBOLES);
+    symbole* s = ts_rechercher_identificateur(TABLE_SYMBOLES, p->tab.id, CTX);
+    printf("%s\n", s->id);
+    printf("\x1b[31m[Warning %s déja déclaré ]\x1b[0m\n", p->tab.id);
+    exit(EXIT_FAILURE);
+  }
+  semantic(p->tab.liste_nb);
+  if(p->tab.liste_nb == NULL)
+    p->codelen = 2;
+  else
+    p->codelen = 2 + p->tab.liste_nb->codelen;
+}
+
+void semantic_LISTE_NB(asa* p)
+{
+  p->memadr = 0;
+
+  semantic(p->liste_nb.nb_svt);
+  if(p->liste_nb.nb_svt == NULL)
+    p->codelen = 1;
+  else
+    p->codelen = 1 + p->liste_nb.nb_svt->codelen;
+}
+
+  case type_TAB:
+    semantic_TAB(p);
+    break;
+  case type_LISTE_NB:
+    semantic_LISTE_NB(p);
+    break;
+
+
+
+
+VAR
+asa* creer_noeud_VAR(asa* p1, asa* p2)
+{
+  asa * p;
+
+  if ((p = malloc(sizeof(asa))) == NULL)
+    error_asa("echec allocation mémoire");
+  
+  p->type = type_VAR;
+  p->var.id = p1;
+  p->var.exp = p2;
+
+  return p;
+}
+
+  case type_VAR:
+    semantic_VAR(p);
+    break;
+
+void semantic_VAR(asa* p)
+{
+  
+  semantic(p->var.id);
+  semantic(p->var.exp);
+  p->codelen = p->var.id->codelen + p->var.exp->codelen;
+}
+
+
+  case type_VAR:
+    free_asa(p->var.id);
+    free_asa(p->var.exp);
+    break;
+
+  case type_VAR:
+    print_VAR(p);
+    break;
+
+void semantic_VAR(asa* p);
+asa* creer_noeud_VAR(asa* p1, asa* p2);
+void print_VAR (asa* p);

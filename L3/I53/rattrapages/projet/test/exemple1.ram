@@ -1,0 +1,36 @@
+LOAD #32      ; RAM_OS
+STORE 2       ; RAM_OS
+LOAD #16      ; RAM_OS
+STORE 5       ; RAM_OS
+LOAD #8       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #1       ;  NB
+SUB @2        ; SOUSTRACTION
+DEC 2         ; PILE--
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #2       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #7       ;  NB
+DIV @2        ; DIVISION
+DEC 2         ; PILE--
+MUL @2        ; MULTIPLICATION
+DEC 2         ; PILE--
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #4       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #3       ;  NB
+INC 2         ; PILE++
+STORE @2         ; STOCKAGE AU SOMMET DE PILE
+LOAD #12      ;  NB
+ADD @2        ; ADDITION
+DEC 2         ; PILE--
+MUL @2        ; MULTIPLICATION
+DEC 2         ; PILE--
+SUB @2        ; SOUSTRACTION
+DEC 2         ; PILE--
+STOP ;

@@ -1,0 +1,1 @@
+gcc -o program source.c $(sdl2-config --cflags --libs)

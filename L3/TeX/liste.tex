@@ -1,0 +1,117 @@
+\documentclass[10pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{textcomp}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage[dvipsnames,svgnames]{xcolor}
+\usepackage{microtype}
+\usepackage{hyperref} \hypersetup{colorlinks=true,linkcolor=Brown,urlcolor=Navy,
+breaklinks=true,pdfstartview=XYZ}
+\usepackage{lipsum}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{xspace}
+
+\newcommand{\SNCF}{S.N.C.F{}}
+\begin{document}
+\marginpar{\includegraphics[width=\marginparwidth]{scout_tf2}}
+\includegraphics[width=0.5\textwidth]{scout_tf2}\label{scout}
+\lipsum[1]
+{
+\renewcommand{\arraystretch}{1.5}
+\renewcommand{\tabcolsep}{0.5cm}
+\begin{center}
+\begin{tabular}{|c||p{1cm}|r|}
+\hline
+
+chat chien		& lapin poulet & cochon
+\\
+\hline
+
+oiseau poule	& oie vache		& ecureuil
+\\
+\hline
+
+\end{tabular}
+\end{center}
+}
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\begin{table}[]
+\begin{tabular}{|@{}c|c|cll@{}|}
+\toprule
+Vitesse (km/h) & Nom Fantastique & Animal Mythique &  &  \\ \midrule
+300            & Pégase          & Griffon         &  &  \\
+250            & Drakkar         & Chimère         &  &  \\
+180            & Phénix          & Basilic         &  &  \\ \bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{multicols}{7}
+\lipsum[1-5]
+\end{multicols}
+
+\lipsum[10]
+\begin{multicols}{2}
+\lipsum[11]
+\columnbreak
+
+\includegraphics[width=0.5\textwidth]{scout_tf2}\label{scout}
+\lipsum[13]
+
+\end{multicols}
+
+bla \SNCF. Donc
+
+bla \SNCF bla
+
+bla \SNCF{} bla
+
+
+\newcommand{\nompropre}[2]{#1 \textsc{#2}\xspace}
+
+
+
+\begin{minipage}{0.49\textwidth}
+\lipsum[2][1-5]
+\end{minipage}
+\begin{minipage}{0.49\textwidth}
+\centering
+\includegraphics[width=0.9\columnwidth]{scout_tf2}
+\end{minipage}
+on voit à la figure \ref{scout}
+
+
+\cite{lcfr}
+\bibliographystyle{plain}
+\bibliography{biblio}
+\begin{enumerate}
+	
+	\item Créature fantastiques
+	\begin{enumerate}
+	
+		\item Dotées d'ailes
+		\begin{enumerate}
+		
+			\item Volent haut
+			\begin{itemize}[
+			
+				\item yoyo				
+				
+			\end{itemize}					
+		
+		\end{enumerate}
+			
+	
+	\end{enumerate}
+
+\end{enumerate}
+
+
+
+\end{document}

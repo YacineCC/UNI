@@ -1,0 +1,30 @@
+yhaouas846@u1-110-5 : 12/11/23
+ _              
+| |_ __ _  __ _ 
+| __/ _` |/ _` |
+| || (_| | (_| |
+ \__\__,_|\__, |
+          |___/ 
+ ---
+ travail personnel: requis       utilisation du compte: libre
+ commandes réseaux: interdites   permission HOMEDIR   : drwx------
+ 
+ Repondre aux questions directement dans l'enonce en utilisant des 
+ lignes de moins de 72 caracteres. Pour les sources, utiliser les noms 
+ de fichiers precises dans l'enonce. Les sources ne doivent pas contenir
+ de commentaires, ni de codes inutiles. Tous les programmes, fichiers 
+ etc... devront etre places dans le repertoire d'examen :
+ 
+            /etudiants/yhaouas846/exam-tp-I51-2023-yhaouas846
+
+Vous validerez votre travail par la commande :   
+
+            
+
+ ---
+
+/home/partage/pl/validexam -mI51
+
+
+LE SUJET EST DANS LE FICHIER pdf JOINT
+

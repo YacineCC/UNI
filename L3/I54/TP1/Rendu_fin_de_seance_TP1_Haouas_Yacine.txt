@@ -1,0 +1,123 @@
+A.Transaction unique.
+
+
+2)
+	Vu qu'il n'y a pas de transction en cours, le Rollback n'a pas de sens et on a l'erreur
+WARNING:  there is no transaction in progress.
+
+3)
+	Quand on consulte la table le nouveau n-uplet est bien présent, mais après le Rollback,
+la table revient à son état d'avant transaction.
+
+4)
+	Ici le commit permet de valider la transaction, la table est bien mise à jour avec le nouveau n-uplet.
+
+5)
+	Le nouveau Département est bien inséré dans la table après le commit.
+Commit marque la fin de transaction donc faire un Rollback après un commit résulte en l'erreur WARNING:  there is no transaction in progress.	
+
+6)
+	La transaction n'a pas été éffectué car interompue en plein mileu, ce qui ne respecte pas le principe ACID d'atomicité. Une transction est effectuée entièrement ou pas du tout.
+
+7)
+	La transaction est bien effectuée car insérer sans faire de BEGIN TRANSACTION revient à inserer et à commit d'un coup.
+
+8)
+	Pendant la transaction la table est bien vide, mais après le Rollback la table revient à son état d'origine.
+
+9) 
+	Avec le commit la table est bien vidée après la transaction.
+
+11)
+	Il existe déja un departement avec cette clef primaire. On reçoit cette
+erreur
+ERROR:  duplicate key value violates unique constraint "departement_pkey"
+DETAIL:  Key (did)=(c1) already exists.
+
+12)
+	Il n'existe pas de clef primaire 'c2' dans la table Département donc elle ne peut pas être référencée par une autre table. On reçoit l'erreur
+
+ERROR:  insert or update on table "employe" violates foreign key constraint "fk_dept"
+DETAIL:  Key (did)=(c2) is not present in table "departement".
+
+13)
+	Le suppression est refusée car d'autres tables dépendent toujours de la clef contenue dans le département en question. On reçoit l'erreur.
+ERROR:  update or delete on table "departement" violates foreign key constraint "fk_dept" on table "employe"
+DETAIL:  Key (did)=(c1) is still referenced from table "employe".
+
+14)
+	Maintenant qu'on à supprimer la contrainte on peut supprimer le départment, le n-uplet d'Employe est toujours présent mais il sa clef étrangère n'existe plus.
+
+17)
+	ALTER TABLE EMPLOYE ADD CONSTRAINT fk_dept FOREIGN KEY(DID) REFERENCES Departement(DID) ON DELETE CASCADE;
+
+	Les deux tables sont vides.
+	Maintenant une suppression d'un départment supprimera toutes les n-uplets d'autres tables qui font référence à une clef primaire de département.
+
+21)
+	Avec le mode DEFERRED, durant la transaction le DELETE est autorisé grâce à la vérification de contrainte qui se fait en fin de transaction. Après le commit la contrainte de clef n'est pas respectée, un Rollback est donc effectué automatiquement et la table est à son état d'avant transaction.
+
+B. Contrôle de la concurrence
+
+2)
+	Les deux fenêtres communiquent, donc la création d'un département dans une des fenêtre est visible dans l'autre.(Attention à bien avoir le même schema et seach_path).
+
+3)
+	Après le commit dans la Session 2 les deux Session ont l'insértion de la Session 2, on l'a voit même si la transaction de la Session 1 n'est pas finie la Session1 contient donc son insertion et l'insértion de la Session 2.
+
+	Après le commit dans la Session 1, les deux Sessions sont à jour et contiennent les insértions de l'une et de l'autre.
+
+4)
+	Lors de l'insertion dans la Session 2 du même départment, la Session 2 se bloque car la Session 1 a le verrou exclusif et ne l'a pas encore rendu avec un commit.
+
+	Lors du commit dans la Session 1, la clef existe déja donc l'insértion n'est pas possible. On reçoit l'erreur
+ERROR:  duplicate key value violates unique constraint "departement_pkey"
+
+La transaction est annulé et on nous demande une commande de fin de transaction. Si on essaie de consulter la table on reçoit cette erreur
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+
+	Lorsqu'on consulte les tables après avoir terminé et relancé la Session 2, les tables sont identiques.
+
+5)
+	Lors de l'insertion du même département la Session 2 se bloque à cause du verou exclusif.
+	Après le Rollback en Session 1 l'insertion en Session 2 s'effectue correctement.
+
+	Après avoir quitter la Session 2 sans commit le département n'est finalement pas inséré dans aucune des Sessions. 
+	 	
+8)
+	UPDATE departement SET libelle = 'Informatique' WHERE DID='c1';	
+
+10)
+	La Session 2 se bloque car la Session 1 a le verrou exclusif et n'a pas encore commit.
+
+11)
+	Dans la Session 1 le Libellé est resté "Informatique", dans la Session 2le Libellé est devenu "Biologie".
+
+12)
+	Après le Commit en Session 2 les deux Sessions ont le Libellé "Biologie".
+
+14)
+	La clef 'c1' n'est pas encore présente dans la Session 2. On reçoit l'erreur
+ERROR:  insert or update on table "employe" violates foreign key constraint "fk_dept"
+DETAIL:  Key (did)=(c1) is not present in table "departement".
+
+15)
+	L'erreur à déja eu lieu donc la Session 2 n'est pas bloquée. La transaction est cependant annulée. On reçoit.
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+
+16)
+	L'insertion dans la Session 2 n'est pas possible, la clef étrange 'c1' n'existe pas encore, la transaction est annulée. Du côté de la Session 1 seule le département à été ajouté.
+
+17)
+	La supression du département C1 se passe correctement.
+
+18)
+	Le départment C1 n'existe plus donc la nouvelle insértion échoue.
+	Après le COMMIT on a un ROLLBACK;
+19)
+	Le changement de nom ne s'éffectue que pour sa session respective.
+
+20)
+	Après le commit de la Session 1 seul Coleen est là.
+	Après le commit de la Session 2 Coleen et Camille sont là pour les deux Sessions.
+
