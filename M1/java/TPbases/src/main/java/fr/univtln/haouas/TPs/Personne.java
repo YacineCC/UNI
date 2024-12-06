@@ -7,6 +7,7 @@ public class Personne {
     private final String nom;
     private int anneeNaissance;
     private int salaire;
+    
 
     private Personne(PersonneBuilder builder) {
         this.prenom = builder.prenom;
@@ -41,6 +42,19 @@ public class Personne {
         return salaire;
     }
 
+    public int comparerSalaire(Personne p) {
+        if (this.salaire > p.salaire) {
+            return 1;
+        } else if (this.salaire < p.salaire) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
+
+    public static int comparerSalaire(Personne p1, Personne p2) {
+        return p1.salaire - p2.salaire;
+    }
 
     public void setAnneeNaissance(int anneeNaissance) {
         this.anneeNaissance = anneeNaissance;
