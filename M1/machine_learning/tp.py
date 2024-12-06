@@ -43,7 +43,7 @@ entropies = []
 for start in range(0, len(diff_tout), 512):
     interval = diff_tout[start : start + 1024]
     auto_corr = scipy.signal.correlate(interval, interval)
-    #auto_corr = auto_corr[len(auto_corr)//2:len(auto_corr)//2 + 32]
+    auto_corr = auto_corr[len(auto_corr)//2:len(auto_corr)//2 + len(auto_corr)//20]
     #auto_corr = auto_corr[0 : len(interval)//2]
     resamp_auto_corr = auto_corr #scipy.signal.resample(auto_corr, 32)
     z = np.array(resamp_auto_corr) - min(resamp_auto_corr) + 1e-100#sys.float_info.epsilon
@@ -52,9 +52,26 @@ for start in range(0, len(diff_tout), 512):
     entropies.append(H)
     matrice.append(resamp_auto_corr)
 
+#np.savetxt("matrice.txt", matrice)
+#cumsum_H = np.cumsum(entropies)
+
+entropies = np.array(entropies)
+idx_mode_1 = np.where(entropies < 4.42)
+idx_mode_2 = np.where(entropies > 4.42)
+matrice = np.array(matrice)
+mode_1 = matrice[idx_mode_1[:10]]
+mode_2 = matrice[idx_mode_2[:10]]
 
 
-plt.hist(entropies, 5000)#int(len(entropies) ** 0.5))
+
+#mode_1 = sum(mode_1) // len(mode_1)
+#mode_2 = sum(mode_2) // len(mode_2)
+plt.plot(mode_1)
+plt.plot(mode_2)
+
+
+
+plt.hist(entropies, 1000)#int(len(entropies) ** 0.5))
 #histo = scipy.ndimage.histogram(entropies, np.min(entropies), np.max(entropies), int(len(entropies) ** 0.5))
 #histo = plt.hist()
 #plt.plot(histo)
