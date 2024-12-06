@@ -7,13 +7,14 @@ public class Personne {
     private final String nom;
     private int anneeNaissance;
     private int salaire;
-    
+    private static int totalDesSalaires = 0;
 
     private Personne(PersonneBuilder builder) {
         this.prenom = builder.prenom;
         this.nom = builder.nom;
         this.anneeNaissance = builder.anneeNaissance;
         this.salaire = builder.salaire;
+        totalDesSalaires += this.salaire;
     }
 
     public String getPrenom() {
@@ -23,6 +24,7 @@ public class Personne {
     public String getNom() {
         return nom;
     }
+
 
     public int getAge() {
         if (anneeNaissance == -1) {
@@ -68,6 +70,10 @@ public class Personne {
         }
     }
 
+    public static int getTotalDesSalaires() {
+        return totalDesSalaires;
+    }
+
     @Override
     public String toString() {
         return "Personne{" +
@@ -76,6 +82,18 @@ public class Personne {
                 ", age=" + getAge() +
                 ", salaire=" + salaire +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Personne p = (Personne) obj;
+        return this.anneeNaissance == p.anneeNaissance;
     }
 
     public static class PersonneBuilder {
