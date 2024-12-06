@@ -16,15 +16,27 @@ public class App {
         p1.setSalaire(2100);
         System.out.println(p1);
         System.out.println(p2);
-        System.out.println(p1.comparerSalaire(p2));
-        System.out.println(Personne.comparerSalaire(p1, p2));
-        System.out.println(p1.equals(p2));
+        System.out.println("Comparer salaire p1 p2" + p1.comparerSalaire(p2));
+        System.out.println("Comparer salaire p1 p2 (statique)" +Personne.comparerSalaire(p1, p2));
+        System.out.println("p1 == p2 ? " + p1.equals(p2));
         p2.setAnneeNaissance(p1.getAnneeNaissance());
         p2.getCerveau().setNbNeurones(100);
         System.out.println(p2);
-        System.out.println(p1.equals(p2));
+        System.out.println("p1 == p2 ? " + p1.equals(p2));
         System.out.println(p1.getAnneeNaissance());
         System.out.println(p2.getAnneeNaissance());
+
+        Personne[] employes = new Personne[100];
+        employes[0] = p1;
+        employes[1] = p2;
+        Entreprise e = new Entreprise(Entreprise.TypeEntreprise.PME, "MaBoite", employes);
+        System.out.println("PME ? " + e.isPME());
+        System.out.println("Grand groupe ? " +e.isGrandGroupe());
+        System.out.println("Publique ? " + e.isPublic());
+        e.afficherEmployes();
+        e.miseEnForme();
+        e.afficherEmployes();
+
 
     }
 }
