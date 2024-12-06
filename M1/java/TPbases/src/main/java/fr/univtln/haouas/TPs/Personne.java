@@ -1,15 +1,17 @@
 package fr.univtln.haouas.TPs;
+import java.util.Calendar;
+
 
 public class Personne {
     private final String prenom;
     private final String nom;
-    private int age = -1;
-    private int salaire = -1;
+    private int anneeNaissance;
+    private int salaire;
 
-    public Personne(Builder builder) {
+    private Personne(PersonneBuilder builder) {
         this.prenom = builder.prenom;
         this.nom = builder.nom;
-        this.age = builder.age;
+        this.anneeNaissance = builder.anneeNaissance;
         this.salaire = builder.salaire;
     }
 
@@ -22,16 +24,26 @@ public class Personne {
     }
 
     public int getAge() {
-        return age;
+        if (anneeNaissance == -1) {
+            return -1;
+        }
+        else {
+            return Calendar.getInstance().get(Calendar.YEAR) - anneeNaissance;
+        }
     }
+
+    public int getAnneeNaissance() {
+        return anneeNaissance;
+    }
+
 
     public int getSalaire() {
         return salaire;
     }
 
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAnneeNaissance(int anneeNaissance) {
+        this.anneeNaissance = anneeNaissance;
     }
 
     public void setSalaire(int salaire) {
@@ -47,30 +59,36 @@ public class Personne {
         return "Personne{" +
                 "prenom='" + prenom + '\'' +
                 ", nom='" + nom + '\'' +
-                ", age=" + age +
+                ", age=" + getAge() +
                 ", salaire=" + salaire +
                 '}';
     }
 
-    public static class Builder {
+    public static class PersonneBuilder {
         private final String prenom;
         private final String nom;
-        private int age = -1;
+        private int anneeNaissance = -1;
         private int salaire = -1;
 
-        public Builder(String prenom, String nom) {
+        public PersonneBuilder(String prenom, String nom) {
             this.prenom = prenom;
             this.nom = nom;
         }
 
-        public Builder age(int age) {
-            this.age = age;
+        public PersonneBuilder withAge(int anneeNaissance) {
+            this.anneeNaissance = anneeNaissance;
             return this;
         }
 
-        public Builder salaire(int salaire) {
-            this.salaire = salaire;
-            return this;
+        public PersonneBuilder withSalaire(int salaire) {
+            if (salaire < 0) {
+                throw new IllegalArgumentException("Le salaire doit être positif");
+            }
+            else {
+                this.salaire = salaire;
+                return this;
+            }
+
         }
 
         public Personne build() {
