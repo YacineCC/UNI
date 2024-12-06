@@ -20,6 +20,7 @@ public class App {
         System.out.println(Personne.comparerSalaire(p1, p2));
         System.out.println(p1.equals(p2));
         p2.setAnneeNaissance(p1.getAnneeNaissance());
+        p2.getCerveau().setNbNeurones(100);
         System.out.println(p2);
         System.out.println(p1.equals(p2));
         System.out.println(p1.getAnneeNaissance());

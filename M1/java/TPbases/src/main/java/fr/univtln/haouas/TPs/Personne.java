@@ -8,6 +8,7 @@ public class Personne {
     private int anneeNaissance;
     private int salaire;
     private static int totalDesSalaires = 0;
+    private final Cerveau cerveau;
 
     private Personne(PersonneBuilder builder) {
         this.prenom = builder.prenom;
@@ -15,6 +16,7 @@ public class Personne {
         this.anneeNaissance = builder.anneeNaissance;
         this.salaire = builder.salaire;
         totalDesSalaires += this.salaire;
+        this.cerveau = new Cerveau();
     }
 
     public String getPrenom() {
@@ -81,6 +83,7 @@ public class Personne {
                 ", nom='" + nom + '\'' +
                 ", age=" + getAge() +
                 ", salaire=" + salaire +
+                ", cerveau=" + cerveau +
                 '}';
     }
 
@@ -127,5 +130,33 @@ public class Personne {
             return new Personne(this);
         }
 
+    }
+
+    public class Cerveau {
+        private int nbNeurones;
+
+        public Cerveau() {
+            this.nbNeurones = 0;
+        }
+
+        public int getNbNeurones() {
+            return nbNeurones;
+        }
+
+        public void setNbNeurones(int nbNeurones) {
+            this.nbNeurones = nbNeurones;
+        }
+
+        @Override
+        public String toString() {
+            return "Cerveau{" +
+                    "nbNeurones=" + nbNeurones +
+                    '}';
+        }
+
+
+    }
+    public Cerveau getCerveau() {
+        return cerveau;
     }
 }
