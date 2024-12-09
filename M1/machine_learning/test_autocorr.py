@@ -51,5 +51,6 @@ ax6 = fig.add_subplot(326)
 ax6.plot(TK_corr)
 ax6.set_title("Auto_Correlation sur tout le signal")
 
+plt.savefig("ex_autocorr")
 
 plt.show()

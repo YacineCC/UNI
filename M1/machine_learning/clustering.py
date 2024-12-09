@@ -36,39 +36,39 @@ def matrice_entropies():
         p_resample = z_resample / sum(z_resample)
         H_resample = scipy.stats.entropy(p_resample) 
 
-        z = auto_corr - min(auto_corr) + 1e-100 #sys.float_info.epsilon
-        p = z / sum(z)
-        H = scipy.stats.entropy(p)
+        #z = auto_corr - min(auto_corr) + 1e-100 #sys.float_info.epsilon
+        #p = z / sum(z)
+        #H = scipy.stats.entropy(p)
 
-        entropies.append(H)
-        matrice.append(auto_corr)
+        #entropies.append(H)
+        #matrice.append(auto_corr)
 
         entropies_resample.append(H_resample)
         matrice_resample.append(resamp_auto_corr)
 
-    np.save("matrice.txt", matrice)
-    np.save("entropies.txt", entropies)
-    np.save("matrice_resample.txt", matrice_resample)
-    np.save("entropies_resample.txt", entropies_resample)
+    #np.save("matrice.txt", matrice)
+    #np.save("entropies.txt", entropies)
+    #np.save("matrice_resample.txt", matrice_resample)
+    #np.save("entropies_resample.txt", entropies_resample)
     
     return matrice, entropies, matrice_resample, entropies_resample
 
-#matrice, entropies, matrice_resample, entropies_resample = matrice_entropies()
+matrice, entropies, matrice_resample, entropies_resample = matrice_entropies()
 
 
 
-matrice = np.load("matrice.txt.npy")
-entropies = np.load("entropies.txt.npy")
-matrice_resample = np.load("matrice_resample.txt.npy")
-entropies_resample = np.load("entropies_resample.txt.npy")
+#matrice = np.load("matrice.txt.npy")
+#entropies = np.load("entropies.txt.npy")
+#matrice_resample = np.load("matrice_resample.txt.npy")
+#entropies_resample = np.load("entropies_resample.txt.npy")
 
 
 #matrice = np.array(matrice)
 #cumsum_H = np.cumsum(entropies)
 
 entropies = np.array(entropies_resample)
-idx_faible_entropie = np.where(entropies_resample < 4.5)
-idx_forte_entropie = np.where(entropies_resample > 4.5)
+idx_faible_entropie = np.where(entropies < 4.5)
+idx_forte_entropie = np.where(entropies > 4.5)
 
 matrice = np.array(matrice_resample)
 mode_1 = matrice[idx_faible_entropie]
@@ -79,27 +79,19 @@ print("Mode 2: ", mode_2.shape)
 
 
 # Clustering
-whitened = scipy.cluster.vq.whiten(mode_1)
-codebook,distorsion = scipy.cluster.vq.kmeans(whitened,3)
+union = mode_1#np.stack((mode_1, mode_2))
+union.reshape(-1, 2)
+whitened = scipy.cluster.vq.whiten(union)
+codebook,distorsion = scipy.cluster.vq.kmeans(whitened,2)
+print(codebook)
 
-plt.scatter(whitened[:, 0], whitened[:, 1])
 
-plt.scatter(codebook[:, 0], codebook[:, 1], c='r')
+plt.scatter(codebook[:,0], codebook[:,1],c='r')
 
 plt.show()
 
-labels, _ = scipy.cluster.vq.vq(whitened, codebook)
+labels, _ = scipy.cluster.vq.vq(union, codebook)
 
-# Étape 4 : Liste de couleurs
-colors = ['r', 'g', 'b']  # Une couleur par cluster
-
-# Étape 5 : Tracer les points par cluster
-for i, color in enumerate(colors):
-    cluster_points = whitened[labels == i]  # Points du cluster i
-    plt.scatter(cluster_points[:, 0], cluster_points[:, 1], c=color, label=f'Cluster {i+1}')
-
-# Étape 6 : Tracer les centres de clusters avec un symbole distinct
-plt.scatter(codebook[:, 0], codebook[:, 1], c=colors, marker='x', s=100, label='Centres')
 
 
 fig = plt.figure(figsize=(20, 20))
