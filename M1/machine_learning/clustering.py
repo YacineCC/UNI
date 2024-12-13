@@ -85,13 +85,12 @@ whitened = scipy.cluster.vq.whiten(union)
 codebook,distorsion = scipy.cluster.vq.kmeans(whitened,2)
 print(codebook)
 
+plt.scatter(whitened[:,0], whitened[:,1])
 
 plt.scatter(codebook[:,0], codebook[:,1],c='r')
-
 plt.show()
 
 labels, _ = scipy.cluster.vq.vq(union, codebook)
-
 
 
 fig = plt.figure(figsize=(20, 20))
