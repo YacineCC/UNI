@@ -9,23 +9,25 @@ import sys
 import scipy.cluster.vq as vq
 from sklearn.manifold import TSNE
 
-os.chdir(os.path.dirname(__file__))
+#os.chdir(os.path.dirname(__file__))
+out_images = os.path.join(os.path.dirname(__file__), "out/images")
+out_data = os.path.join(os.path.dirname(__file__), "out/data")
+
+def entropie(p):
+    return -sum(p * np.log2(p))
 
 def matrice_entropies():
     sig, r = sf.read("ONECAT_20200114_152058_174.wav")
 
-    data = sig[::2]
-    #diff = np.diff(data)
+    data = sig#[::2]
     diff = np.zeros(len(data))
     for i in range(1, len(data) - 1):
         diff[i] = data[i+1]-data[i]
 
 
     matrice = []
-    matrice_resample = []
     entropies = []
-    entropies_resample = []
-    e_faible = []
+
     pas = 640
     for start in range(0, len(diff)-pas, pas):
         interval = diff[start : start + pas * 2]
@@ -35,50 +37,39 @@ def matrice_entropies():
         resamp_auto_corr = auto_corr[len(auto_corr)//2:len(auto_corr)//2 + len(auto_corr)//20]
         resamp_auto_corr = scipy.signal.resample(resamp_auto_corr, 10)
 
-        z_resample = resamp_auto_corr - min(resamp_auto_corr) + 1e-100 #sys.float_info.epsilon
-        p_resample = z_resample / sum(z_resample)
-        H_resample = scipy.stats.entropy(p_resample) 
-
-        #z = auto_corr - min(auto_corr) + 1e-100 #sys.float_info.epsilon
-        #p = z / sum(z)
+        z = resamp_auto_corr - min(resamp_auto_corr) + 1e-100 #sys.float_info.epsilon
+        p = z / sum(z)
         #H = scipy.stats.entropy(p)
-
-        #entropies.append(H)
-        #matrice.append(p)
-
-        entropies_resample.append(H_resample)
-        
-        #matrice_resample.append(resamp_auto_corr)
-        matrice_resample.append(p_resample)
+        H = entropie(p)
 
 
-    np.save("matrice.txt", matrice)
-    np.save("entropies.txt", entropies)
-    np.save("matrice_resample.txt", matrice_resample)
-    np.save("entropies_resample.txt", entropies_resample)
-    np.save("e_faible.txt", e_faible)
+
+        entropies.append(H)
+        matrice.append(p)
+
+
+    np.save(os.path.join(out_data, "matrice"), matrice)
+    np.save(os.path.join(out_data, "entropies"), entropies)
+
     
-    return matrice, entropies, matrice_resample, entropies_resample, e_faible
+    return matrice, entropies
 
-#matrice, entropies, matrice_resample, entropies_resample, e_faible = matrice_entropies()
-
-
-
-#matrice = np.load("matrice.txt.npy")
-#entropies = np.load("entropies.txt.npy")
-
-matrice_resample = np.load("matrice_resample.txt.npy")
-entropies_resample = np.load("entropies_resample.txt.npy")
+matrice, entropies = matrice_entropies()
 
 
-#matrice = np.array(matrice)
-#cumsum_H = np.cumsum(entropies)
 
-entropies = np.array(entropies_resample)
-idx_faible_entropie = np.where(entropies < 1.6)
-idx_forte_entropie = np.where(entropies > 1.6)
+matrice = np.load(os.path.join(out_data, "matrice.npy"))
+entropies = np.load(os.path.join(out_data, "entropies.npy"))
 
-matrice = np.array(matrice_resample)
+
+
+
+entropies = np.array(entropies)
+seuil = 1.8
+idx_faible_entropie = np.where(entropies < seuil)
+idx_forte_entropie = np.where(entropies > seuil)
+
+matrice = np.array(matrice)
 mode_1 = matrice[idx_faible_entropie]
 mode_2 = matrice[idx_forte_entropie]
 
@@ -86,25 +77,21 @@ print("Mode 1: ", mode_1.shape)
 print("Mode 2: ", mode_2.shape)
 
 
-# Clustering
-#union = np.vstack((mode_1, mode_2))
-#union.reshape(-1, 2)
-#union = e_faible
-
 tsne = TSNE(n_components=2, random_state=0, perplexity=30, max_iter=1000)
 mode_1_2d = tsne.fit_transform(mode_1)
 
 codebook,distorsion = scipy.cluster.vq.kmeans(mode_1_2d,2)
-#print(codebook)
 labels, _ = scipy.cluster.vq.vq(mode_1_2d, codebook)
 plt.scatter(mode_1_2d[:,0], mode_1_2d[:,1],c=labels)
 
 plt.scatter(codebook[:,0], codebook[:,1],c='r')
 
-plt.savefig("clustering.png")
+plt.savefig(os.path.join(out_images, "clustering.png") )
 plt.show()
 
 plt.hist2d(mode_1_2d[:,0], mode_1_2d[:, 1])
+
+plt.savefig(os.path.join(out_images, "heatmap.png"))
 plt.show()
 
 fig = plt.figure(figsize=(20, 20))
@@ -140,13 +127,13 @@ comparaison_plot.set_title("Comparaison des moyennes")
 
 hist = fig.add_subplot(224)
 
-hist.hist(entropies_resample, 200, color='orange')
+hist.hist(entropies, 150, color='orange')
 hist.set_title("Histogramme des entropies (resample)")
 hist.set_xlabel("Entropie")
 hist.set_ylabel("Fréquence")
 
 
-plt.savefig("signal_1sur2_resample.png")
+plt.savefig(os.path.join(out_images, "signal_1sur2_resample.png"))
 
 plt.show()
 
