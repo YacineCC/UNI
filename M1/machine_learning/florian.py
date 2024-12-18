@@ -57,9 +57,9 @@ def save_file(save_list: list, folder_path="data", add_folder_by_name=False):
 def get_data(filename="file1"):
     #data, r = sf.read("ONECAT_20200114_152058_174.wav")
     data = []
-    fichiers = os.listdir('Audios')
-    for f in fichiers[35:41] :
-        d, r = sf.read(f"Audios/{f}")
+    fichiers = os.listdir('/scratch/yhaouas846/Audios')
+    for f in fichiers[10:15] :
+        d, r = sf.read('/scratch/yhaouas846/Audios/'+f)
         print(f)
         data = np.concatenate((data,d))
     diff = np.zeros(len(data))
