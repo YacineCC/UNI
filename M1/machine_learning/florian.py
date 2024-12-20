@@ -58,7 +58,7 @@ def get_data(filename="file1"):
     #data, r = sf.read("ONECAT_20200114_152058_174.wav")
     data = []
     fichiers = os.listdir('/scratch/yhaouas846/Audios')
-    for f in fichiers[10:15] :
+    for f in fichiers[20:21] :
         d, r = sf.read('/scratch/yhaouas846/Audios/'+f)
         print(f)
         data = np.concatenate((data,d))

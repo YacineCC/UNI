@@ -54,18 +54,25 @@ def matrice_entropies():
     
     return matrice, entropies
 
-matrice, entropies = matrice_entropies()
+#matrice, entropies = matrice_entropies()
 
 
 
 matrice = np.load(os.path.join(out_data, "matrice.npy"))
 entropies = np.load(os.path.join(out_data, "entropies.npy"))
+fig = plt.figure(figsize=(20, 20))
 
+hist = fig.add_subplot(224)
 
+hist.hist(entropies, 150, color='orange')
+hist.set_title("Histogramme des entropies (resample)")
+hist.set_xlabel("Entropie")
+hist.set_ylabel("Fréquence")
+plt.show()
 
 
 entropies = np.array(entropies)
-seuil = 1.8
+seuil = 2.4
 idx_faible_entropie = np.where(entropies < seuil)
 idx_forte_entropie = np.where(entropies > seuil)
 
@@ -137,4 +144,41 @@ plt.savefig(os.path.join(out_images, "signal_1sur2_resample.png"))
 
 plt.show()
 
+
+"""
+#Partie du code Shawn Pélerin et Florian Audouard
+
+NbCluster = 6
+fig, axs = plt.subplots(NbCluster, 1, figsize=(15, 10))
+for i in range(NbCluster) :
+	ilab = np.where(labels == i)[0]
+	#print(ilab4)
+	lab = weak_entropie[ilab]
+	entropielab = [entropie(l) for l in lab]
+	axs[i].hist(entropielab,range=(1.3,2.1), bins=50)
+plt.show()
+
+
+#On garde le 2 : label 2 = couleur gris bleu
+ilab2 = np.where(labels == 5)[0]
+lab2d = weak_entropie_2d[ilab2]
+lab2 = weak_entropie[ilab2]
+plt.plot(lab2d[:,0],lab2d[:,1],'.')
+plt.show()
+
+tsne = TSNE(n_components=2, random_state=0, perplexity=30, max_iter=1000)
+tsnelab2 = tsne.fit_transform(lab2)
+codebook, _ = scipy.cluster.vq.kmeans(tsnelab2, 3)
+labels, _ = scipy.cluster.vq.vq(tsnelab2, codebook)
+
+plot_scatter_hist2d(
+	tsnelab2,
+	labels,
+	codebook,
+	len(weak_entropie[0]),
+	f"Cluster points label 2",
+)
+
+plt.show()
+"""
 
