@@ -17,7 +17,16 @@ def entropie(p):
     return -sum(p * np.log2(p))
 
 def matrice_entropies():
-    sig, r = sf.read("ONECAT_20200114_152058_174.wav")
+    #sig, r = sf.read("ONECAT_20200114_152058_174.wav")
+    data = []
+    fichiers = os.listdir('/scratch/yhaouas846/Audios')
+    fichiers.sort()
+    #print(fichiers)
+    for f in fichiers[9:10] :
+        #print(f)
+        sig, r = sf.read('/scratch/yhaouas846/Audios/'+f)
+        data = np.concatenate((data,sig))
+
 
     data = sig#[::2]
     diff = np.zeros(len(data))
@@ -34,8 +43,10 @@ def matrice_entropies():
 
         auto_corr = scipy.signal.correlate(interval, interval)
         # Symétrie de l'auto-corrélation donc on prend la moitié et garder le 1/20ème après.
-        resamp_auto_corr = auto_corr[len(auto_corr)//2:len(auto_corr)//2 + len(auto_corr)//20]
+        #resamp_auto_corr = auto_corr[len(auto_corr)//2:len(auto_corr)//2 + len(auto_corr)//20]
+        resamp_auto_corr = auto_corr[len(auto_corr) // 2 : len(auto_corr) // 2 + 128]
         resamp_auto_corr = scipy.signal.resample(resamp_auto_corr, 10)
+
 
         z = resamp_auto_corr - min(resamp_auto_corr) + 1e-100 #sys.float_info.epsilon
         p = z / sum(z)
@@ -54,7 +65,7 @@ def matrice_entropies():
     
     return matrice, entropies
 
-#matrice, entropies = matrice_entropies()
+matrice, entropies = matrice_entropies()
 
 
 
@@ -62,13 +73,8 @@ matrice = np.load(os.path.join(out_data, "matrice.npy"))
 entropies = np.load(os.path.join(out_data, "entropies.npy"))
 fig = plt.figure(figsize=(20, 20))
 
-hist = fig.add_subplot(224)
 
-hist.hist(entropies, 150, color='orange')
-hist.set_title("Histogramme des entropies (resample)")
-hist.set_xlabel("Entropie")
-hist.set_ylabel("Fréquence")
-plt.show()
+
 
 
 entropies = np.array(entropies)
