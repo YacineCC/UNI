@@ -1,0 +1,11 @@
+A hardware friendly and meaningful image encryption strategy based on a binary measurement matrix and de Bruijn sequence :
+https://www.sciencedirect.com/science/article/pii/S0030399223007405
+
+
+sites : 
+Science Direct
+Springer link
+ArXiv
+
+
+
