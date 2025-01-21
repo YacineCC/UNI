@@ -19,125 +19,113 @@ sorties = np.zeros([len(df),len(sp)])
 for s in range(len(sp)) :
    sorties[:,s] = df.species==sp[s]
 
+# eta arbitraire
 eta = 1/300
 
+# Initialisation des poids aléatoires, on a ici 3 neurones et 4 entrées avec un biais pour chaque neurone.
 poids = np.array([rd.randint(-100, 100) / 100 for i in range(15)])
 poids = poids.reshape(3, 5)
-#print(poids)
 
 
-learning_data = np.zeros([len(entrees)//2 + 1, 4])
-learning_data[: 145//2 + 1] = entrees[: 145//2 + 1]
-learning_data[145//2 : 264//2 + 1] = entrees[145//2 : 264//2 + 1]
-#learning_data[145//2 : 264//2 + 1] = entrees[145//2 : 264//2 + 1]
-learning_data[264//2 : 333//2 + 1] = entrees[264//2 : 333//2 + 1]
-learning_data = entrees
-test_data = np.zeros([len(entrees)//2, 4])
 
 
-for i in range(len(learning_data[0])):
-	learning_data[:,i] /= max(learning_data[:,i])
 
-idx = np.arange(len(learning_data))
+# Normalisation des données
+for i in range(len(entrees[0])):
+	entrees[:,i] /= max(entrees[:,i])
+
+# Moitié des données pour l'apprentissage, l'autre moitié pour le test
+# Mélange des données
+idx = np.arange(len(entrees))
 np.random.shuffle(idx)
-learning_data = learning_data[idx,:]
-print(learning_data)
-test_data = learning_data[251:]
-learning_data = learning_data[:250]
+entrees = entrees[idx,:]
+
+# Affecation des listes d'apprentissage et de test on fait moitié moitié
+learning_data = entrees[:len(entrees)//2]
+test_data = entrees[len(entrees)//2:]
+
+# Attention à ne pas oublier de shuffler les sorties de la même manière que les entrées
 sorties = sorties[idx,:]
+
 
 
 tab_test = []
 
 tab = []
+# Pour chaque étape
 for etapes in range(200):
 	erreur = 0
 	erreur_test = 0
 
+	# Pour chaque exemple d'apprentissage
 	for p in range(len(learning_data)):
 		
+		# Pour chaque neurone j
 		for j in range(len(sp)):
 			value = 0
+			# Calcul de la somme pondérée
 			for i in range(len(learning_data[0])):
 			 
 				value += poids[j][i]  * learning_data[p][i]
 
+			# Fonction d'activation
 			if value < 0:
 				value = 0
 			else:
 				value = 1
 
+			# Calcul de l'erreur
 			erreur += (sorties[p][j] - value)**2
-			for i in range(len(learning_data[0])):
 
+			# Pour chaque entrée
+			for i in range(len(learning_data[0])):
+				# Mise à jour des poids
 				poids[j,i] += eta * (sorties[p][j] - value) * learning_data[p][i]
 			
+			# Mise à jour du biais
 			poids[j, -1] += -(eta * (sorties[p][j] - value))
 
 
+	# Le méthode pour tester est identique à l'apprentissage on ne modifie juste pas les poids.
+	# Pour chaque exemple de test
+	for p in range(len(test_data)):
+		# Pour chaque neurone j
+		for j in range(len(sp)):
+			value_test = 0
+			# Calcul de la somme pondérée
+			for i in range(len(test_data[0])):
+			
+				value_test += poids[j][i]  * test_data[p][i]
 
-			for p in range(len(test_data)):
-		
-				for j in range(len(sp)):
-					value_test = 0
-					for i in range(len(test_data[0])):
-					
-						value_test += poids[j][i]  * test_data[p][i]
+			# Fonction d'activation
+			if value_test < 0:
+				value_test = 0
+			else:
+				value_test =1
 
+			# Calcul de l'erreur
+			erreur_test += (sorties[p][j] - value_test)**2
 
-					if value_test < 0:
-						value_test = 0
-					else:
-						value_test =1
-
-					erreur_test += (sorties[p][j] - value_test)**2
-			tab_test.append(erreur/len(test_data)*100)
+			# Note : pas de mise à jour des poids ici
 
 
 
-				
+	# Ajout de l'erreur à la liste
 	tab.append(erreur/len(learning_data)*100)
 	tab_test.append(erreur/len(test_data)*100)
 
-"""
-for etapes in range(200):
-	erreur = 0
 
-	for p in range(len(test_data)):
-		
-		for j in range(len(sp)):
-			value = 0
-			for i in range(len(test_data[0])):
-			 
-				value += poids[j][i]  * test_data[p][i]
-
-			if value < 0:
-				value = 0
-			else:
-				value = 1
-
-			erreur += (sorties[p][j] - value)**2
-			
-			#for i in range(len(learning_data[0])):
-
-			#	poids[j,i] += eta * (sorties[p][j] - value) * learning_data[p][i]
-			
-			#poids[j, -1] += -(eta * (sorties[p][j] - value))
-				
-"""
-#print(tab[2])
+# Affichage des erreurs pour l'apprentissage et le test
 plt.plot(tab)
+plt.savefig("apprentissage.png")
 
 
 
 plt.show()
 
 plt.plot(tab_test)
+plt.savefig("test.png")
 plt.show()
 
 
 
-
-#print(np.where(df.species == "Gentoo"))
-#print(entrees)
-#print(learning_data) 
