@@ -1,0 +1,124 @@
+\documentclass{beamer}
+
+% Choix du thème
+\usetheme{Madrid}
+
+% Packages utiles
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx} % Pour inclure des images
+\usepackage{transparent}
+
+% Titre et informations principales
+\title{Séquences de de Bruijn}
+\subtitle{Pour la cryptographie}
+\author{Pegliasco, Haouas, Marçais, Nguyen}
+\date{\today}
+
+\begin{document}
+
+% Page de titre
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% Table des matières
+\begin{frame}{Plan}
+    \tableofcontents
+\end{frame}
+
+\section{Introduction}
+\begin{frame}{Introduction}
+    \begin{itemize}
+        \item Le graphe
+        \item La séquence
+        \item Attaque brute force
+        \item stream cipher
+        \item Transformation des données (Blocs et mapping)
+        \item Substitution et chiffrement
+    \end{itemize}
+\end{frame}
+
+\section{Le graphe de de Bruijn}
+\begin{frame}{Le graphe de de Bruijn}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{graph.png}
+        \caption{Graphe de de Bruijn $B(2, 3)$.}
+        \label{fig:graph}
+    \end{figure}
+\end{frame}
+
+\section{Séquence de de Bruijn}
+\begin{frame}{Séquence de de Bruijn}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{sequence.png}
+        \caption{Séquence de de Bruijn à partir du graphe $B(2, 2)$}
+        \label{fig:sequence}
+    \end{figure}
+\end{frame}
+
+
+\section{Attaque brute force}
+\begin{frame}{Attaque brute force}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{keypad.jpg}
+        \caption{Attaque brute force}
+        \label{fig:brute_force}
+    \end{figure}
+\end{frame}
+
+\section{Chiffrement par flux}
+\begin{frame}{Concept général}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{cipher_1.png} 
+        \caption{Concept géneral du chiffrement par flux}
+        \label{fig:cipher_1}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Seed issue de la séquence}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{cipher_2.jpg} 
+        \caption{Seed issue de la séquence}
+        \label{fig:cipher_2}
+    \end{figure}
+\end{frame}
+
+
+
+
+
+\section{Mappage bloc -> indice}
+\begin{frame}{Mappage bloc -> indice}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{peg_1.jpeg}
+        \caption{Mappage bloc -> indice}
+        \label{fig:peg_1}
+    \end{figure}
+\end{frame}
+
+\section{Substitution et chiffrement}
+\begin{frame}{Substitution et chiffrement}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{peg_2.jpeg}
+        \caption{Substitution et chiffrement}
+        \label{fig:peg_2}
+    \end{figure}
+\end{frame}
+
+
+% Dernière diapositive
+\begin{frame}{}
+    \centering
+    Merci pour votre attention !
+\end{frame}
+
+\end{document}
