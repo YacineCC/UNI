@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg viewBox="0 0 2560 1440" version="1.1" id="svg5" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+<g id="checkers">
+<rect width="200" height="200" x="80" y="20"></rect>
+<rect width="200" height="200" x="480" y="20"></rect>
+<rect width="200" height="200" x="880" y="20"></rect>
+<rect width="200" height="200" x="1280" y="20"></rect>
+<rect width="200" height="200" x="1680" y="20"></rect>
+<rect width="200" height="200" x="2080" y="20"></rect>
+<rect width="200" height="200" x="280" y="220"></rect>
+<rect width="200" height="200" x="680" y="220"></rect>
+<rect width="200" height="200" x="1080" y="220"></rect>
+<rect width="200" height="200" x="1480" y="220"></rect>
+<rect width="200" height="200" x="1880" y="220"></rect>
+<rect width="200" height="200" x="2280" y="220"></rect>
+<rect width="200" height="200" x="80" y="420"></rect>
+<rect width="200" height="200" x="480" y="420"></rect>
+<rect width="200" height="200" x="880" y="420"></rect>
+<rect width="200" height="200" x="1280" y="420"></rect>
+<rect width="200" height="200" x="1680" y="420"></rect>
+<rect width="200" height="200" x="2080" y="420"></rect>
+<rect width="200" height="200" x="280" y="620"></rect>
+<rect width="200" height="200" x="680" y="620"></rect>
+<rect width="200" height="200" x="1080" y="620"></rect>
+<rect width="200" height="200" x="1480" y="620"></rect>
+<rect width="200" height="200" x="1880" y="620"></rect>
+<rect width="200" height="200" x="2280" y="620"></rect>
+<rect width="200" height="200" x="80" y="820"></rect>
+<rect width="200" height="200" x="480" y="820"></rect>
+<rect width="200" height="200" x="880" y="820"></rect>
+<rect width="200" height="200" x="1280" y="820"></rect>
+<rect width="200" height="200" x="1680" y="820"></rect>
+<rect width="200" height="200" x="2080" y="820"></rect>
+<rect width="200" height="200" x="280" y="1020"></rect>
+<rect width="200" height="200" x="680" y="1020"></rect>
+<rect width="200" height="200" x="1080" y="1020"></rect>
+<rect width="200" height="200" x="1480" y="1020"></rect>
+<rect width="200" height="200" x="1880" y="1020"></rect>
+<rect width="200" height="200" x="2280" y="1020"></rect>
+<rect width="200" height="200" x="80" y="1220"></rect>
+<rect width="200" height="200" x="480" y="1220"></rect>
+<rect width="200" height="200" x="880" y="1220"></rect>
+<rect width="200" height="200" x="1280" y="1220"></rect>
+<rect width="200" height="200" x="1680" y="1220"></rect>
+<rect width="200" height="200" x="2080" y="1220"></rect>
+
+</g>
+</svg>
