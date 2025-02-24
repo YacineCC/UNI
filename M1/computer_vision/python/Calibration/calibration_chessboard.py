@@ -112,7 +112,8 @@ def calibrate_chessboard(image_files):
 	print()
 	print('focal length : ', f)
 
-		
+	print(camera_matrix)
+	print(dist_coefs)
 	# f : 28 mm
 	
 

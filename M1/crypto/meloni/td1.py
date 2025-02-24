@@ -148,6 +148,7 @@ pgcd = gcd(tab[0], tab[1])
 for i in range(2, len(tab)):
     pgcd = gcd(pgcd, tab[i])
 
+print(tab)
 
 
 decal_0 = cipher_ex3[::3]
@@ -162,11 +163,70 @@ cesar_1 = np.argmax(analyse_1)
 analyse_2 = analyse_freq(decal_2)[0]
 cesar_2 = np.argmax(analyse_2)
 
-decal_0 = chiffrer(decal_0, (cesar_0 - 4) % 26)
-decal_1 = chiffrer(decal_1, (cesar_1 - 4) % 26)
-decal_2 = chiffrer(decal_2, (cesar_2 - 4) % 26)
+
+
+decal_0 = chiffrer(decal_0,  - (cesar_0 - 4) % 26)
+decal_1 = chiffrer(decal_1, - (cesar_1 - 4) % 26)
+decal_2 = chiffrer(decal_2, - (cesar_2 - 4) % 26)
+
 
 dechiffer = ''
 
-for i in range(len(decal_0)):
-    dechiffer += []
+i = 0
+while i < len(decal_2):
+    dechiffer += decal_0[i]
+    dechiffer += decal_1[i]
+    dechiffer += decal_2[i]
+    i += 1
+
+print(dechiffer)
+
+cipher_ex4 = "NOPXNQEKMBPGSZIZPUGKCZRWXPBPUKMHHPWZIMCPKMHRGGFAIXEFMEHGQQATPEGBFRWBFGIOUVBSHTSFJVTNMMFCTSFTXZUKTSYCBSPOPPTZZRTIZIZLDNKHRWFMJVPVNMRRPGQBJWEWMZBGIHGMLTKIRHKFQTBLDNBSZRGPTDLNMTIVRCGGBCAOIWYNSDHIERTLIPVWACQWELBRBPQQCUPSNZSQGHDPLFIKMDYWGRXLPLXUSAVZATCGRXCBVPHQGXCEMMRBKHFGIOUBZSNWTGGMEAFMGHTSCJMWEMMLGGZGXMDTWMZVXFQHWFVXVHNNCDPTWOUTWTGOZIIOELIDCTCJXULTBWBFFSEEMCTXARRUSZHDZIKLSFQINAQDABVGVNSEEZZGKIAZGGODUAIEMGFQBFTVREGMFNNPQPCNONXDYWGDPXTDXADBWFBGWOUBZSYGIDHZPSNTHNVGCJMWELXFBIFMBUPSBVHRTDDTBPSMGDVSIQBMYTNVDEQUDPUXEVMGGFWJUWTSITIFTOBXLPQNCBCTCSGIXMXMEHKJMAMYTXVDLVVACMYRXDOAEVQAIXOBVREGAASQQIVIHVQBZTKPSLQHRFSDTTLNVMFYCHAIIWIMMRHRFARMDSNARRECYEQWAMQCAESCJQAENBFRPRDTTPDXDSYQDBTUPNMXZHUZMQWCIXCLPGGFAICABACARCGGTLQNMZYGZQHOCOLXFBIFMBUPSLWBGFSODCAELMBFQIEEZZGKIAZGGBDCGAGBSGTSBPZEIXTZROSZIKZMIQZRUWZSMAEGLOZOSZIWYPTZZRUCGKMYTIIFNDIESMWAGOOTGRQAIYGTOSQGDDDOCAFUOGKCZRWXPBTSBWWZIMCPKMHRKZQHBTMIWFGCBFSMNOFXFRPRDTYFUGTOAIOSTLPPKWUECAYPBTOGMGGCJMCBEONBIAGBAGUPCXAHYKABAIEAMQCAFSOTBEEGWFZGEGXXPUMLCAPSDACTAECHVNWEPBTOGLIAECYEQWAMMIEQIPJVTNMMFCTSFT"
+
+tab = []
+for i in range(len(cipher_ex4)):
+    
+    patern = cipher_ex4[i:i + 4]
+    idx = cipher_ex4.find(patern,i+4)
+    if idx != -1:
+        print(idx - i, patern)
+        if idx - i not in tab :
+            tab.append(idx - i)
+
+pgcd = gcd(tab[0], tab[1])
+for i in range(2, len(tab)):
+    pgcd = gcd(pgcd, tab[i])
+
+print(pgcd)
+print(tab)
+
+
+decal_0 = cipher_ex4[::3]
+decal_1 = cipher_ex4[1::3]
+decal_2 = cipher_ex4[2::3]
+analyse_0 = analyse_freq(decal_0)[0]
+cesar_0 = np.argmax(analyse_0)
+
+analyse_1 = analyse_freq(decal_1)[0]
+cesar_1 = np.argmax(analyse_1)
+
+analyse_2 = analyse_freq(decal_2)[0]
+cesar_2 = np.argmax(analyse_2)
+
+
+
+decal_0 = chiffrer(decal_0,  - (cesar_0 - 4) % 26)
+decal_1 = chiffrer(decal_1, - (cesar_1 - 4) % 26)
+decal_2 = chiffrer(decal_2, - (cesar_2 - 4) % 26)
+
+
+dechiffer = ''
+
+i = 0
+while i < len(decal_2):
+    dechiffer += decal_0[i]
+    dechiffer += decal_1[i]
+    dechiffer += decal_2[i]
+    i += 1
+
+#print(dechiffer)
