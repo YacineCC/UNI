@@ -80,4 +80,36 @@ sbox = [14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7]
 permut = [0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15]
 
 print(f'c : {spn(entree, cle, sbox, permut, 4)}')
+
+
+sbox_inv = []
+permut_inv = [0, 4, 2, ]
+
+def table_biais(sbox):
+	n = len(sbox)
+	table = []
+	for a in range(n):
+		tmp = []
+
+		for b in range(n):
+			cpt = 0 
+			for x in range(n):
+				ax = a & x
+				by = b & sbox[x]
+				cpt += 1 - ((ax ^ by).bit_count() & 1) 
+				#table[j] += 1 - ((el & j).bit_count() & 1)
+				#table[j] = (table[j] / (1 << n)) - 1/2
+			tmp += [cpt / (1 << n) - 1/2]
+		#print(tmp)
+		table += [tmp]
 	
+	return table
+
+#table_biais(sbox)
+print(table_biais(sbox))
+
+		
+
+for m in range(1 << 16):
+	for k in range(1 << 16):
+		spn(m, y, sbox, permut, 4)
