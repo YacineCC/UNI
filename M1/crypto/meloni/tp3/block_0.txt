@@ -1,0 +1,4 @@
+hash precedent: 0
+difficulte: 0
+Block initial
+Nonce: 572

@@ -1,0 +1,5 @@
+hash precedent: 007d2c5152101b5d2960c838b2fa26effe8935df942653ba137872b5fe068275
+difficulte: 8
+Ceci est un vrai bloc qui a ete valide
+On peut y stocker plusieurs lignes d informations
+Nonce: 160

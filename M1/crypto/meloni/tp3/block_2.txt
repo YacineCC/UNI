@@ -1,0 +1,4 @@
+hash precedent: 00766536a5ad7d4e9644378a23c07a4c4a2ee15b048dad770e601a488ab35666
+difficulte: 8
+Ceci est un bloc a valider.
+La difficulte de validation est de 12 cette fois.
